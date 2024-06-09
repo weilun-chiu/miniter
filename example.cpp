@@ -35,6 +35,10 @@ public:
             return current->data;
         }
 
+        void* operator*() {
+            return current->data;
+        }
+
         Iterator& operator++() {
             current = current->next;
             return *this;
@@ -49,7 +53,15 @@ public:
         return Iterator(head);
     }
 
+    Iterator begin() {
+        return Iterator(head);
+    }
+
     Iterator end() const {
+        return Iterator(nullptr);
+    }
+
+    Iterator end() {
         return Iterator(nullptr);
     }
 
@@ -71,13 +83,26 @@ int main() {
     list.insertAtBack(&b);
     list.insertAtBack(&c);
 
+    // Print addresses stored in the list
     for (void* data : list) {
-        std::cout << data << " ";  // Prints addresses of a, b, c
+        std::cout << data << " ";
     }
     std::cout << std::endl;
 
+    // Print values stored in the list
     for (void* data : list) {
-        std::cout << *static_cast<int*>(data) << " ";  // Prints values: 1 2 3
+        std::cout << *static_cast<int*>(data) << " ";
+    }
+    std::cout << std::endl;
+
+    // Modify values stored in the list
+    for (void* data : list) {
+        *static_cast<int*>(data) *= 2;
+    }
+
+    // Print modified values stored in the list
+    for (void* data : list) {
+        std::cout << *static_cast<int*>(data) << " ";
     }
     std::cout << std::endl;
 
